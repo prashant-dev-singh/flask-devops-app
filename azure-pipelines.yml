@@ -22,20 +22,19 @@ stages:
       inputs:
         terraformVersion: 'latest'
 
-    - script: |
-        cd terraform/envs/dev
+    - task: AzureCLI@2
+      displayName: "Terraform Apply via Azure CLI"
+      inputs:
+        azureSubscription: 'aks-connection'   # 👈 your service connection
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          cd terraform/envs/dev
 
-        terraform init \
-          -backend-config="../../backend/backend.tf"
+          terraform init \
+            -backend-config="../../backend/backend.tf"
 
-        terraform apply -auto-approve
-      displayName: "Terraform Apply"
-
-      env:
-        ARM_CLIENT_ID: $(ARM_CLIENT_ID)
-        ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-        ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
-        ARM_TENANT_ID: $(ARM_TENANT_ID)
+          terraform apply -auto-approve
 
 # 🔷 STAGE 2: BUILD & PUSH IMAGE
 - stage: Build
