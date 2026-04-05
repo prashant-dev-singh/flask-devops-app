@@ -71,7 +71,7 @@ stages:
     - task: AzureCLI@2
       displayName: "Get AKS Credentials"
       inputs:
-        azureSubscription: 'azure-connection'   # 👈 your Azure RM service connection
+        azureSubscription: 'aks-connection'   # 👈 your Azure RM service connection
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
